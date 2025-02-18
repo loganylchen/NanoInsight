@@ -1,11 +1,11 @@
-rule fusion:
+rule genion_fusion:
     input:
         fastq=get_raw_fastq,
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4genion.paf',
         transcriptome_dup='{project}/resources/transcriptome_dup.tsv',
         dups='{project}/resources/genomicSuperDups.txt'
     output:
-        fusions = '{project}/{sample}/fusion/{genion}/{sample}_fusion_genion.tsv'
+        fusions = '{project}/{sample}/fusion/genion/{sample}_fusion_genion.tsv'
     params:
         gtf=config['reference']['annotation']
     resources:
