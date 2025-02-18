@@ -1,0 +1,16 @@
+reference:
+  genome:
+  transcriptome:
+  annotation:
+
+threads:
+  minimap2: 12
+
+params:
+  minimap2_genion: -c -y -x splice -k 12 -w 3 --hard-mask-level -N 100
+
+misc:
+  genion_dup_file_link: ftp://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/genomicSuperDups.txt.gz
+
+fusion:
+  genion: True
