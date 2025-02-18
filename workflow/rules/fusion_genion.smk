@@ -23,6 +23,6 @@ rule genion_fusion:
         "--gtf {params.gtf} "
         "-g {input.mapping_paf} "
         "-s {input.transcriptome_dup} "
-        "-o {output.fusions} 2>{log}"
+        "-o {output.fusions} 2>{log} "
 
 
