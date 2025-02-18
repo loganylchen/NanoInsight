@@ -1,10 +1,14 @@
+samples: config/samples.tsv
+
+project: pipeline_test
+
 reference:
-  genome:
-  transcriptome:
-  annotation:
+  genome: data/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+  transcriptome: data/Homo_sapiens.GRCh38.cdna.all.fa
+  annotation: data/Homo_sapiens.GRCh38.104.gtf
 
 threads:
-  minimap2: 12
+  minimap2: 24
 
 params:
   minimap2_genion: -c -y -x splice -k 12 -w 3 --hard-mask-level -N 100
