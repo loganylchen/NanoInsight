@@ -42,6 +42,27 @@ rule minimap2_genome_fusion_longgf:
         "| samtools sort -n - -o {output.mapping_bam}"
 
 
+rule minimap2_transcriptome_fusion_jaffal:
+    input:
+        fastq=get_raw_fastq
+    output:
+        mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_transcriptome_4jaffal.paf'
+    params:
+        reference=config['reference']['transcriptome'],
+    threads: config['threads']['minimap2']
+    resources:
+        mem_mb = 1024 * 30
+    log:
+        'logs/{project}/minimap2_transcriptome_fusion_jaffal/{sample}.log'
+    benchmark:
+        'benchmarks/{project}/minimap2_transcriptome_fusion_jaffal/{sample}.txt'
+    conda:
+        '../envs/minimap2.yaml'
+    shell:
+        "minimap2 -x map-ont -t {threads} -c  {params.reference}  {input.fastq} -o {output.mapping_paf} 2>{log}"
+
+
+
 rule minimap2_transcriptome_dup:
     input:
         transcriptome_file=config['reference']['transcriptome']

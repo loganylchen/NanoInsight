@@ -2,6 +2,7 @@ reference:
   genome:
   transcriptome:
   annotation:
+  transtable:
 
 threads:
   minimap2: 12

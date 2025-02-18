@@ -6,6 +6,10 @@ rule genion_fusion:
         dups='{project}/resources/genomicSuperDups.txt'
     output:
         fusions = '{project}/{sample}/fusion/genion/{sample}_fusion_genion.tsv'
+    log:
+        'logs/{project}/genion_fusion/{sample}.log'
+    benchmark:
+        'benchmarks/{project}/genion_fusion/{sample}.txt'
     params:
         gtf=config['reference']['annotation']
     resources:
