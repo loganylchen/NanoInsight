@@ -26,7 +26,7 @@ rule jaffal_filter_genome_mapping:
         mem_mb= 1024*10
     threads: 1
     script:
-        '../scripts/jaffal_generate_genome_psl.bash'
+        '../scripts/jaffal_generate_genome_psl.sh'
 
 
 
@@ -66,7 +66,7 @@ rule jaffal_extract_sequences:
     container:
         "docker://btrspg/jaffal:2.3"
     script:
-        '../scripts/jaffal_extract_sequences.bash'
+        '../scripts/jaffal_extract_sequences.sh'
 
 
 rule jaffal_make_fasta_reads_table:
@@ -84,7 +84,7 @@ rule jaffal_make_fasta_reads_table:
     container:
         "docker://btrspg/jaffal:2.3"
     script:
-        '../scripts/jaffal_make_fasta_reads_table.bash'
+        '../scripts/jaffal_make_fasta_reads_table.sh'
 
 
 
@@ -110,7 +110,7 @@ rule jaffal_get_final_list:
     container:
         "docker://btrspg/jaffal:2.3"
     script:
-        '../scripts/jaffal_get_final_list.bash'
+        '../scripts/jaffal_get_final_list.sh'
 
 rule jaffal_compile_results:
     input:
@@ -132,4 +132,4 @@ rule jaffal_compile_results:
     container:
         "docker://btrspg/jaffal:2.3"
     script:
-        '../scripts/jaffal_compile_results.bash'
+        '../scripts/jaffal_compile_results.sh'
