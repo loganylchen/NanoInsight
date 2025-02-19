@@ -47,7 +47,7 @@ rule jaffal_filter_transcripts:
     container:
         "docker://btrspg/jaffal:2.3"
     shell:
-        "process_transcriptome_align_table {input.mapping_paf} 1000  {transtable} > {output.gene_count} 2>{log}"
+        "process_transcriptome_align_table {input.mapping_paf} 1000  {params.transtable} > {output.gene_count} 2>{log}"
 
 rule jaffal_extract_sequences:
     input:
