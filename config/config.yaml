@@ -3,6 +3,7 @@ reference:
   transcriptome:
   annotation:
   transtable:
+  knowntable:
 
 threads:
   minimap2: 12
