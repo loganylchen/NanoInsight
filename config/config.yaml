@@ -6,6 +6,8 @@ reference:
   genome: data/Homo_sapiens.GRCh38.dna.primary_assembly.fa
   transcriptome: data/Homo_sapiens.GRCh38.cdna.all.fa
   annotation: data/Homo_sapiens.GRCh38.104.gtf
+  transtable: data/hg38_genCode22.tab
+  knowntable: data/known_fusions.txt
 
 threads:
   minimap2: 24
@@ -20,3 +22,4 @@ misc:
 fusion:
   genion: True
   longgf: True
+  jaffal: True
