@@ -31,6 +31,7 @@ include: "rules/alignment_minimap2.smk"
 include: "rules/prepare_reference.smk"
 include: "rules/fusion_genion.smk"
 include: "rules/fusion_longgf.smk"
+include: "rules/fusion_jaffal.smk"
 
 
 

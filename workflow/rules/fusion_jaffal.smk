@@ -13,6 +13,21 @@ rule jaffal_fastq_to_fasta:
     shell:
         "seqtk seq -a {input.raw_fastq} > {output.fasta} 2>{log}"
 
+rule jaffal_filter_genome_mapping:
+    input:
+        mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4jaffal.paf'
+    output:
+        genome_psl='{project}/{sample}/fusion/jaffal/{sample}.genome.psl'
+    log:
+        'logs/{project}/jaffal_filter_genome_mapping/{sample}.log'
+    benchmark:
+        'benchmarks/{project}/jaffal_filter_genome_mapping/{sample}.txt'
+    resources:
+        mem_mb= 1024*10
+    threads: 1
+    script:
+        '../scripts/jaffal_generate_genome_psl.bash'
+
 
 
 rule jaffal_filter_transcripts:
@@ -50,53 +65,71 @@ rule jaffal_extract_sequences:
     threads: 1
     container:
         "docker://btrspg/jaffal:2.3"
-    shell:
-        "cat {input.gene_count} | awk '{print \$1}' > {output.fusion_temp} && "
-        "reformat.sh in={input.raw_fasta} out=stdout.fasta fastawrap=0 "
-        "| extract_seq_from_fasta {output.fusion_temp} > {output.fusion_fa}"
+    script:
+        '../scripts/jaffal_extract_sequences.bash'
 
 
-# minimap2_genome = {
-#    doc "Aligning candidates to genome using minimap2"
-#    output.dir=jaffa_output+branch
-#    produce(branch+"_genome.paf",branch+"_genome.psl"){ 
-# 	exec """
-# 	   $minimap2 -t $threads -x splice -c $genomeFasta $input > $output1;
-# 	   grep \$'\\t+\\t' $output1 | awk -F'\\t' -v OFS="\\t" '{ print \$4-\$3,0,0,0,0,0,0,0,\$5,\$1,\$2,\$3,\$4,\$6,\$7,\$8,\$9,2, 100","\$4-\$3-100",",\$3","\$3+100",",  \$8","\$9-\$4+\$3+100"," }' > $output2 ;
-# 	   grep \$'\\t-\\t' $output1 | awk -F'\\t' -v OFS="\\t" '{ print \$4-\$3,0,0,0,0,0,0,0,\$5,\$1,\$2,\$3,\$4,\$6,\$7,\$8,\$9,2, 100","\$4-\$3-100",", \$2-\$4","\$2-\$4+100",", \$8","\$9-\$4+\$3+100"," }' >> $output2 ;
-#         """
-#    }
-# }
-
-# bpipe="/opt/bin/bpipe"
-# samtools="/opt/bin/samtools"
-# R="/usr/bin/R"
-# minimap2="/opt/bin/minimap2"
-# process_transcriptome_align_table="/opt/bin/process_transcriptome_align_table"
-# make_simple_read_table="/opt/bin/make_simple_read_table"
-# extract_seq_from_fasta="/opt/bin/extract_seq_from_fasta"
-# reformat="/opt/bin/reformat.sh"
-# make_3_gene_fusion_table="/opt/bin/make_3_gene_fusion_table"
+rule jaffal_make_fasta_reads_table:
+    input:
+        gene_count='{project}/{sample}/fusion/jaffal/{sample}.geneCounts.tsv', 
+    output:
+        fasta_reads_table='{project}/{sample}/fusion/jaffal/{sample}.geneCounts.reads'
+    log:
+        'logs/{project}/jaffal_make_fasta_reads_table/{sample}.log'
+    benchmark:
+        'benchmarks/{project}/jaffal_make_fasta_reads_table/{sample}.txt'
+    resources:
+        mem_mb= 1024*10
+    threads: 1
+    container:
+        "docker://btrspg/jaffal:2.3"
+    script:
+        '../scripts/jaffal_make_fasta_reads_table.bash'
 
 
-# rule jaffal_fusion:
-#     input:
-#         mapping_bam='{project}/{sample}/alignment/{sample}_minimap2_genome_4longgf.bam',
-#     output:
-#         fusions = '{project}/{sample}/fusion/longgf/{sample}_fusion_longgf.tsv'
-#     params:
-#         gtf=config['reference']['annotation']
-#     log:
-#         'logs/{project}/jaffal_fusion/{sample}.log'
-#     benchmark:
-#         'benchmarks/{project}/jaffal_fusion/{sample}.txt'
-#     resources:
-#         mem_mb = 1024 * 10
-#     threads: 1
-#     container:
-#         "docker://btrspg/longgf:0.1.2"
-#     shell:
-#         'LongGF {input.mapping_bam}  {params.gtf} 100 30 100 '
-#         '| grep "SumGF" > {output.fusions}'
 
+rule jaffal_get_final_list:
+    input:
+        genome_psl='{project}/{sample}/fusion/jaffal/{sample}.genome.psl',
+        fasta_reads_table='{project}/{sample}/fusion/jaffal/{sample}.geneCounts.reads',
+        gene_count='{project}/{sample}/fusion/jaffal/{sample}.geneCounts.tsv', 
+    output:
+        final_list='{project}/{sample}/fusion/jaffal/{sample}.final_list.txt',
+        three_gene_reads='{project}/{sample}/fusion/jaffal/{sample}.3gene.reads',
+        three_gene_summary='{project}/{sample}/fusion/jaffal/{sample}.3gene.summary.txt',
+    log:
+        'logs/{project}/jaffal_get_final_list/{sample}.log'
+    params:
+        transtable=config['reference']['transtable'],
+        knowntable=config['reference']['knowntable'],
+    benchmark:
+        'benchmarks/{project}/jaffal_get_final_list/{sample}.txt'
+    resources:
+        mem_mb= 1024*10
+    threads: 1
+    container:
+        "docker://btrspg/jaffal:2.3"
+    script:
+        '../scripts/jaffal_get_final_list.bash'
 
+rule jaffal_compile_results:
+    input:
+        three_gene_summary='{project}/{sample}/fusion/jaffal/{sample}.3gene.summary.txt',
+        final_list='{project}/{sample}/fusion/jaffal/{sample}.final_list.txt',
+         
+    output:
+        output_fasta='{project}/{sample}/fusion/jaffal/{sample}.final.fasta',
+        fusion='{project}/{sample}/fusion/jaffal/{sample}_fusion_jaffal.tsv',
+    log:
+        'logs/{project}/jaffal_compile_results/{sample}.log'
+    params:
+        final_out_prefix='{project}/{sample}/fusion/jaffal/{sample}.final'
+    benchmark:
+        'benchmarks/{project}/jaffal_compile_results/{sample}.txt'
+    resources:
+        mem_mb= 1024*10
+    threads: 1
+    container:
+        "docker://btrspg/jaffal:2.3"
+    script:
+        '../scripts/jaffal_compile_results.bash'
