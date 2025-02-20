@@ -9,7 +9,7 @@ echo `date`
 
 
 
-R --vanilla --args ${snakemake_params[final_out_prefix]}  ${snakemake_input[three_gene_summary]}  < /opt/softwares/JAFFA/compile_results.R ;
+R --vanilla --args ${snakemake_params[final_out_prefix]}  ${snakemake_input[three_gene_summary]}  ${snakemake_input[final_list]} < /opt/softwares/JAFFA/compile_results.R ;
             
 while read line; do /opt/softwares/JAFFA/scripts/get_fusion_seqs.bash $line ${snakemake_output[output_fasta]}; done < ${snakemake_params[final_out_prefix]}.csv;
 
