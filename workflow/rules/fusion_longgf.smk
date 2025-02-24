@@ -9,6 +9,7 @@ rule longgf_fusion:
         'logs/{project}/longgf_fusion/{sample}.log'
     benchmark:
         'benchmarks/{project}/longgf_fusion/{sample}.txt'
+    priority: 10
     resources:
         mem_mb = 1024 * 10
     threads: 1

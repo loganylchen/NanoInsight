@@ -6,6 +6,7 @@ rule jaffal_fastq_to_fasta:
     threads: 1
     resources:
         mem_mb = 1024 * 5
+    priority: 10
     benchmark:
         'benchmarks/{project}/jaffal_fastq_to_fasta/{sample}.txt'
     log:
@@ -25,6 +26,7 @@ rule jaffal_filter_genome_mapping:
     resources:
         mem_mb= 1024*10
     threads: 1
+    priority: 10
     script:
         '../scripts/jaffal_generate_genome_psl.sh'
 
@@ -43,6 +45,7 @@ rule jaffal_filter_transcripts:
         'benchmarks/{project}/jaffal_filter_transcripts/{sample}.txt'
     resources:
         mem_mb= 1024*10
+    priority: 10
     threads: 1
     container:
         "docker://btrspg/jaffal:2.3"
@@ -60,6 +63,7 @@ rule jaffal_extract_sequences:
         'logs/{project}/jaffal_extract_sequences/{sample}.log'
     benchmark:
         'benchmarks/{project}/jaffal_extract_sequences/{sample}.txt'
+    priority: 10
     resources:
         mem_mb= 1024*10
     threads: 1
@@ -80,6 +84,7 @@ rule jaffal_make_fasta_reads_table:
         'benchmarks/{project}/jaffal_make_fasta_reads_table/{sample}.txt'
     resources:
         mem_mb= 1024*10
+    priority: 10
     threads: 1
     container:
         "docker://btrspg/jaffal:2.3"
@@ -99,6 +104,7 @@ rule jaffal_get_final_list:
         three_gene_summary='{project}/{sample}/fusion/jaffal/{sample}.3gene.summary.txt',
     log:
         'logs/{project}/jaffal_get_final_list/{sample}.log'
+    priority: 10
     params:
         transtable=config['reference']['transtable'],
         knowntable=config['reference']['knowntable'],
@@ -122,6 +128,7 @@ rule jaffal_compile_results:
         fusion='{project}/{sample}/fusion/jaffal/{sample}_fusion_jaffal.tsv',
     log:
         'logs/{project}/jaffal_compile_results/{sample}.log'
+    priority: 10
     params:
         final_out_prefix='{project}/{sample}/fusion/jaffal/{sample}.final'
     benchmark:

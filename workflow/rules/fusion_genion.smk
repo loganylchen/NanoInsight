@@ -10,6 +10,7 @@ rule genion_fusion:
         'logs/{project}/genion_fusion/{sample}.log'
     benchmark:
         'benchmarks/{project}/genion_fusion/{sample}.txt'
+    priority: 10
     params:
         gtf=config['reference']['annotation']
     resources:
