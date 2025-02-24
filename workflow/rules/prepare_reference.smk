@@ -6,6 +6,7 @@ rule extract_dup:
     threads: 1
     resources:
         mem_mb = 1024 * 5
+    priority: 1
     log:
         'logs/{project}/prepre_dups.log'
     shell:
@@ -20,6 +21,7 @@ rule genome_gfa:
     threads: 1
     resources:
         mem_mb = 1024 * 5
+    priority: 1
     log:
         'logs/{project}/prepre_dups.log'
     shell:

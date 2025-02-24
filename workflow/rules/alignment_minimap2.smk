@@ -28,6 +28,7 @@ rule minimap2_genome_fusion_longgf:
         reference=config['reference']['genome'],
         ext_opt=config['params']['minimap2_longgf'],
     threads: config['threads']['minimap2']
+    priority: 1
     resources:
         mem_mb = 1024 * 30
     log:
@@ -50,6 +51,7 @@ rule minimap2_transcriptome_fusion_jaffal:
     params:
         reference=config['reference']['transcriptome'],
     threads: config['threads']['minimap2']
+    priority: 1
     resources:
         mem_mb = 1024 * 30
     log:
@@ -70,6 +72,7 @@ rule minimap2_genome_fusion_jaffal:
     params:
         reference=config['reference']['genome'],
     threads: config['threads']['minimap2']
+    priority: 1
     resources:
         mem_mb = 1024 * 30
     log:
@@ -88,6 +91,7 @@ rule minimap2_transcriptome_dup:
     output:
         transcriptome_dup='{project}/resources/transcriptome_dup.tsv'
     threads: config['threads']['minimap2']
+    priority: 1
     resources:
         mem_mb = 1024 * 30
     log:
