@@ -27,11 +27,12 @@ container: "docker://condaforge/mambaforge:22.11.1-4"
 
 
 include: "rules/common.smk"
-include: "rules/alignment_minimap2.smk"
+
 include: "rules/prepare_reference.smk"
-include: "rules/fusion_genion.smk"
-include: "rules/fusion_longgf.smk"
-include: "rules/fusion_jaffal.smk"
+include: "rules/fusion/align.smk"
+include: "rules/fusion/genion.smk"
+include: "rules/fusion/longgf.smk"
+include: "rules/fusion/jaffal.smk"
 
 
 
