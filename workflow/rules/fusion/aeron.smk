@@ -1,40 +1,40 @@
-rule aeron_genome_alignment:
-	input:
-		fastq=get_raw_fastq
-	output:
-		mapping_gam='{project}/{sample}/alignment/{sample}_aeron_genome_4aeron.gam',
-    params:
-        gfa='{project}/resources/genome.gfa',
-        tmp_dir='{project}/{sample}/fusion/aeron/tmp/seedcache',
-        ext_opt=config['params']['aeron_genome_alignment']
-	benchmark:
-        'benchmarks/{project}/aeron_genome_alignment/{sample}.txt'
-    log:
-        'logs/{project}/aeron_genome_alignment/{sample}.log'
-	threads: config['threads']['aeron']
-	shell:
-		"GraphAligner -g {params.gfa} -f {input.fastq} "
-        "-t {threads} "
-        "--seeds-mxm-cache-prefix {params.tmp_dir} "
-        "-a {output.mapping_gam}  2> {log}"
+# rule aeron_genome_alignment:
+# 	input:
+# 		fastq=get_raw_fastq
+# 	output:
+# 		mapping_gam='{project}/{sample}/alignment/{sample}_aeron_genome_4aeron.gam',
+#     params:
+#         gfa='{project}/resources/genome.gfa',
+#         tmp_dir='{project}/{sample}/fusion/aeron/tmp/seedcache',
+#         ext_opt=config['params']['aeron_genome_alignment']
+# 	benchmark:
+#         'benchmarks/{project}/aeron_genome_alignment/{sample}.txt'
+#     log:
+#         'logs/{project}/aeron_genome_alignment/{sample}.log'
+# 	threads: config['threads']['aeron']
+# 	shell:
+# 		"GraphAligner -g {params.gfa} -f {input.fastq} "
+#         "-t {threads} "
+#         "--seeds-mxm-cache-prefix {params.tmp_dir} "
+#         "-a {output.mapping_gam}  2> {log}"
 
 
 
-rule aeron_postprocess:
-	input:
-		mapping_gam='{project}/{sample}/alignment/{sample}_aeron_genome_4aeron.gam',
-		fastq = get_raw_fastq
-	output:
-		selected_alns = '{project}/{sample}/alignment/{sample}_aeron_genome_4aeron_selected.gam',
-		full_len_alns = '{project}/{sample}/alignment/{sample}_aeron_genome_4aeron_fulllength.gam',
-		summary = '{project}/{sample}/fusion/aeron/{sample}_aeron_postprocess_summary.txt',
-    log:
-        'logs/{project}/aeron_postprocess/{sample}.log'
-	benchmark:
-        'benchmarks/{project}/aeron_postprocess/{sample}.txt'
-    threads: config['threads']['aeron']
-	shell:
-		"Postprocess {input.mapping_gam} {input.fastq} {output.selected_alns} {output.full_len_alns} {output.summary} 2>{log}"
+# rule aeron_postprocess:
+# 	input:
+# 		mapping_gam='{project}/{sample}/alignment/{sample}_aeron_genome_4aeron.gam',
+# 		fastq = get_raw_fastq
+# 	output:
+# 		selected_alns = '{project}/{sample}/alignment/{sample}_aeron_genome_4aeron_selected.gam',
+# 		full_len_alns = '{project}/{sample}/alignment/{sample}_aeron_genome_4aeron_fulllength.gam',
+# 		summary = '{project}/{sample}/fusion/aeron/{sample}_aeron_postprocess_summary.txt',
+#     log:
+#         'logs/{project}/aeron_postprocess/{sample}.log'
+# 	benchmark:
+#         'benchmarks/{project}/aeron_postprocess/{sample}.txt'
+#     threads: config['threads']['aeron']
+# 	shell:
+# 		"Postprocess {input.mapping_gam} {input.fastq} {output.selected_alns} {output.full_len_alns} {output.summary} 2>{log}"
 
 
 # configfile: "config.yaml"
