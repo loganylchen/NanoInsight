@@ -13,8 +13,8 @@ rule minimap2_genome_fusion_genion:
         'logs/{project}/minimap2_genome_fusion_genion/{sample}.log'
     benchmark:
         'benchmarks/{project}/minimap2_genome_fusion_genion/{sample}.txt'
-    conda:
-        '../envs/minimap2.yaml'
+    container:
+        'docker://btrspg/minimap2:2.28'
     shell:
         "minimap2 {params.ext_opt} -t {threads}  {params.reference}  {input.fastq} -o {output.mapping_paf} 2>{log}"
 
@@ -35,8 +35,8 @@ rule minimap2_genome_fusion_longgf:
         'logs/{project}/minimap2_genome_fusion_longgf/{sample}.log'
     benchmark:
         'benchmarks/{project}/minimap2_genome_fusion_longgf/{sample}.txt'
-    conda:
-        '../envs/minimap2.yaml'
+    container:
+        'docker://btrspg/minimap2:2.28'
     shell:
         "minimap2 {params.ext_opt} -t {threads}  {params.reference}  {input.fastq}  2>{log} "
         "|samtools view -bSh "
@@ -58,8 +58,8 @@ rule minimap2_transcriptome_fusion_jaffal:
         'logs/{project}/minimap2_transcriptome_fusion_jaffal/{sample}.log'
     benchmark:
         'benchmarks/{project}/minimap2_transcriptome_fusion_jaffal/{sample}.txt'
-    conda:
-        '../envs/minimap2.yaml'
+    container:
+        'docker://btrspg/minimap2:2.28'
     shell:
         "minimap2 -x map-ont -t {threads} -c  {params.reference}  {input.fastq} -o {output.mapping_paf} 2>{log}"
 
@@ -79,8 +79,8 @@ rule minimap2_genome_fusion_jaffal:
         'logs/{project}/minimap2_genome_fusion_jaffal/{sample}.log'
     benchmark:
         'benchmarks/{project}/minimap2_genome_fusion_jaffal/{sample}.txt'
-    conda:
-        '../envs/minimap2.yaml'
+    container:
+        'docker://btrspg/minimap2:2.28'
     shell:
         "minimap2 -x splice -t {threads} -c  {params.reference}  {input.fastq} -o {output.mapping_paf} 2>{log} "
 
@@ -98,8 +98,8 @@ rule minimap2_transcriptome_dup:
         'logs/{project}/minimap2_transcriptome_dup.log'
     benchmark:
         'benchmarks/{project}/minimap2_transcriptome_dup.txt'
-    conda:
-        '../envs/minimap2.yaml'
+    container:
+        'docker://btrspg/minimap2:2.28'
     shell:
         "minimap2 {input.transcriptome_file} {input.transcriptome_file} -X -t {threads} -2 -c 2>{log} "
         "| cut -f1,6 "
@@ -120,7 +120,7 @@ rule vg_gfa:
     benchmark:
         'benchmarks/{project}/vg_gfa.txt'
     container:
-        'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
+        'docker://btrspg/vg:1.23.0'
     shell:
         "vg construct -r {input.reference} -t {threads} > {output.vg_vg} 2>{log} && "
         "vg view {output.vg_vg} > {output.vg_gfa} 2>>{log}"
