@@ -140,6 +140,8 @@ rule vg_genome_aeron:
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     threads: config['threads']['vg']
+    benchmark:
+        'benchmarks/{project}/vg_genome_fusion_aeron/{sample}.txt'
     resources:
         mem_mb = 1024 * 30,
         tmpdir = '{project}/{sample}/alignment/{sample}_vg_tmp'
@@ -148,4 +150,31 @@ rule vg_genome_aeron:
         "--try-all-seeds --seeds-mxm-length {params.seedsize} --seeds-mem-count {params.maxseeds} "
         "--seeds-mxm-cache-prefix {resources.tmpdir} "
         "-a {output} -t {threads} -b {params.aligner_bandwidth} --E-cutoff 1  2> {log} 1>&2 "
+
+rule align_aeron:
+    input:
+        graph = '{project}/resources/genome.gfa',
+        reads = get_raw_fastq
+    output:
+        '{project}/{sample}/alignment/{sample}_graphaligner_genome_4aeron.gam'
+    benchmark:
+        'benchmarks/{project}/graphaligner_fusion_aeron/{sample}.txt'
+    log:
+        'logs/{project}/graphaligner_fusion_aeron/{sample}.log'
+    threads: config['threads']['aeron']
+    container:
+        'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
+    params:
+        seedsize = 17,
+        maxseeds=15,
+        aligner_bandwidth = 35
+    resources:
+        mem_mb = 1024 * 30,
+        tmpdir = '{project}/{sample}/alignment/{sample}_ga_tmp'
+    shell:
+        "GraphAligner -g {input.graph} "
+        "-f {input.reads} --try-all-seeds --seeds-mxm-length {params.seedsize} 
+        "--seeds-mem-count {params.maxseeds} "
+        "--seeds-mxm-cache-prefix {resources.tmpdir} "
+        "-a {output} -t {threads} -b {params.aligner_bandwidth} --greedy-length 2>{log} 1>&2"
 

@@ -36,7 +36,8 @@ def get_final_output():
     # detect fusions
     final_output = []
     final_output += expand(
-                '{project}/{sample}/alignment/{sample}_vg_genome_4aeron.gam', sample=list(samples.index),project=PROJECT)
+                "{project}/{sample}/fusion/aeron/{sample}_tofusion.sam", sample=list(samples.index),project=PROJECT)
+    
     for tool in config['fusion']:
         if config['fusion'][tool]:
             final_output += expand(
