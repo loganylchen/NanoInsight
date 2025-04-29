@@ -109,11 +109,11 @@ rule minimap2_transcriptome_dup:
 
 
 rule vg_gfa:
+    input:
+        reference=config['reference']['genome'],
     output:
         vg_gfa='{project}/resources/genome.gfa',
         vg_vg = '{project}/resources/genome.vg',
-    params:
-        reference=config['reference']['genome'],
     threads: config['threads']['vg']
     log:
         'logs/{project}/vg_gfa.log'
@@ -122,7 +122,7 @@ rule vg_gfa:
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell:
-        "vg construct -r {params.reference} -t {threads} > {output.vg_vg} 2>{log} && "
+        "vg construct -r {input.reference} -t {threads} > {output.vg_vg} 2>{log} && "
         "vg view {output.vg_vg} > {output.vg_gfa} 2>>{log}"
 
 rule vg_genome_aeron:
