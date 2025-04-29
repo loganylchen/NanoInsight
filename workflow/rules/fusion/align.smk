@@ -126,25 +126,25 @@ rule vg_gfa:
         "vg view {output.vg_vg} > {output.vg_gfa} 2>>{log}"
 
 rule vg_genome_aeron:
-	input:
-		graph = '{project}/resources/genome.gfa',
-		reads = get_raw_fastq
-	output:
+    input:
+        graph = '{project}/resources/genome.gfa',
+        reads = get_raw_fastq
+    output:
         '{project}/{sample}/alignment/{sample}_vg_genome_4aeron.gam'
-	log:
-		'logs/{project}/vg_genome_fusion_aeron/{sample}.log'
+    log:
+        'logs/{project}/vg_genome_fusion_aeron/{sample}.log'
     params:
         seedsize = 17,
         maxseeds=15,
         aligner_bandwidth = 35
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
-	threads: config['threads']['vg']
-	resources:
-		mem_mb = 1024 * 30,
+    threads: config['threads']['vg']
+    resources:
+        mem_mb = 1024 * 30,
         tmpdir = '{project}/{sample}/alignment/{sample}_vg_tmp'
-	shell:
-		"Aligner --all-alignments -g {input.graph} -f {input.reads} "
+    shell:
+        "Aligner --all-alignments -g {input.graph} -f {input.reads} "
         "--try-all-seeds --seeds-mxm-length {params.seedsize} --seeds-mem-count {params.maxseeds} "
         "--seeds-mxm-cache-prefix {resources.tmpdir} "
         "-a {output} -t {threads} -b {params.aligner_bandwidth} --E-cutoff 1  2> {log} 1>&2 "
