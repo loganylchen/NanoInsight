@@ -120,7 +120,7 @@ rule vg_gfa:
     benchmark:
         'benchmarks/{project}/vg_gfa.txt'
     container:
-        'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
+        'docker://btrspg/vg:1.23.0'
     shell:
         "vg construct -r {input.reference} -t {threads} > {output.vg_vg} 2>{log} && "
         "vg view {output.vg_vg} > {output.vg_gfa} 2>>{log}"
