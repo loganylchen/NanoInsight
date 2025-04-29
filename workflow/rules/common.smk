@@ -35,6 +35,8 @@ def get_raw_blow5(wildcards):
 def get_final_output():
     # detect fusions
     final_output = []
+    final_output += expand(
+                '{project}/{sample}/alignment/{sample}_vg_genome_4aeron.gam', sample=list(samples.index),project=PROJECT)
     for tool in config['fusion']:
         if config['fusion'][tool]:
             final_output += expand(
