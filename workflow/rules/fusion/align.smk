@@ -144,7 +144,7 @@ rule vg_genome_aeron:
     benchmark:
         'benchmarks/{project}/vg_genome_fusion_aeron/{sample}.txt'
     resources:
-        mem_mb = 1024 * 30,
+        mem_mb = 1024 * 300,
         
     shell:
         "Aligner --all-alignments -g {input.graph} -f {input.reads} "
@@ -171,7 +171,7 @@ rule align_aeron:
         maxseeds=15,
         aligner_bandwidth = 35
     resources:
-        mem_mb = 1024 * 30,
+        mem_mb = 1024 * 300,
     shell:
         "GraphAligner -g {input.graph} "
         "-f {input.reads} --try-all-seeds --seeds-mxm-length {params.seedsize} "
