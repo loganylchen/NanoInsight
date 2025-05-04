@@ -19,7 +19,7 @@ rule partial_pairs_aeron:
 
 rule postprocess_aeron:
     input:
-        all_alns = '{project}/{sample}/alignment/{sample}_graphaligner_genome_4aeron.gam'
+        all_alns = '{project}/{sample}/alignment/{sample}_graphaligner_genome_4aeron.gam',
         reads = get_raw_fastq
     output:
         selected_alns = '{project}/{sample}/alignment/{sample}_selected_4aeron.gam',
@@ -38,7 +38,7 @@ rule postprocess_aeron:
 rule pair_assignments_aeron:
     input:
         transcriptaln = '{project}/{sample}/alignment/{sample}_fulllength_4aeron.gam',
-        pairs = '{project}/{sample}/alignment/{sample}_pairs_4aeron.gam'
+        pairs = '{project}/{sample}/alignment/{sample}_pairs_4aeron.gam',
         reads = get_raw_fastq
     output: 
         temp('{project}/{sample}/fusion/aeron/{sample}_pairs_4aeron.txt')

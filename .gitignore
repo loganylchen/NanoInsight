@@ -3,5 +3,9 @@ resources/**
 logs/**
 .snakemake
 .snakemake/**
-
+.condarc
+.cache
 .test/
+data
+pipeline_test
+.conda
