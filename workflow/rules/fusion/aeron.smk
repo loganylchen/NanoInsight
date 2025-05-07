@@ -14,7 +14,7 @@ rule partial_pairs_aeron:
     resources:
         mem_mb = 1024 * 30,
     shell: 
-        "PickAdjacentAlnPairs {input.readaln} 20 {input.reads} {output} 100 2>{log}"
+        "PickAdjacentAlnPairs {input.readalin} 20 {input.reads} {output} 100 2>{log}"
 
 
 rule postprocess_aeron:
@@ -100,7 +100,7 @@ rule parse_matrix_aeron:
     shell: 
         "parse_pair_matrix.py < {input} > {output}"
 
-rule loose_fusions:
+rule loose_fusions_aeron:
     input: 
         "{project}/{sample}/fusion/aeron/{sample}_exactMatrixparse.txt"
     output: 
@@ -117,7 +117,7 @@ rule loose_fusions:
 
 
 
-rule fusionfinder:
+rule fusionfinder_aeron:
     input:
         graph = '{project}/resources/genome.gfa',
         loose_fusions = "{project}/{sample}/fusion/aeron/{sample}_loose_fusions.txt",
@@ -138,7 +138,7 @@ rule fusionfinder:
         "FusionFinder {input.graph} {input.loose_fusions} {input.pairmatrix} {input.transcriptaln} {input.reads} "
         " 1 1.0 1 1 {threads} {output.fusions} {output.corrected} 2>{log} 1>&2"
 
-rule filter_fusions:
+rule filter_fusions_aeron:
     input: 
         "{project}/{sample}/fusion/aeron/{sample}_unfiltered_fusion.txt",
     output: 
@@ -156,7 +156,7 @@ rule filter_fusions:
     shell: 
         "awk -F '\t' '{{if ($2 < {params.FUSION_MAX_ERROR_RATE} && $3 < -{params.FUSION_MIN_SCORE_DIFFERENCE}) print;}}' < {input} > {output}"
 
-rule fusion_transcripts:
+rule fusion_transcripts_aeron:
     input:
         fusions = "{project}/{sample}/fusion/aeron/{sample}_fusion_table.txt",
         corrected = "{project}/{sample}/fusion/aeron/{sample}_corrected_fusion.txt",
@@ -171,7 +171,7 @@ rule fusion_transcripts:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell: "pick_fusion_exemplar.py {input.fusions} {input.corrected} > {output} 2>{log}"
 
-rule merge_ref_and_fusions:
+rule merge_ref_and_fusions_aeron:
     input:
         "{project}/{sample}/fusion/aeron/{sample}.fa",
     params:
@@ -182,7 +182,7 @@ rule merge_ref_and_fusions:
     shell: 
         "cat {params.reference} {input.fusions} > {output}"
 
-rule align_reads_to_fusions:
+rule align_reads_to_fusions_aeron:
     input:
         refplusfusion = "{project}/{sample}/fusion/aeron/{sample}_withref.fa",
         reads = get_raw_fastq
@@ -202,7 +202,7 @@ rule align_reads_to_fusions:
 
 
 
-rule fusion_support_sam:
+rule fusion_support_sam_aeron:
     input:
         fusiontranscripts = "{project}/{sample}/fusion/aeron/{sample}.fa",
         minimapalns = "{project}/{sample}/fusion/aeron/{sample}_tofusion.bam"
