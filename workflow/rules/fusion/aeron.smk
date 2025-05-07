@@ -32,6 +32,8 @@ rule postprocess_aeron:
     benchmark:
         'benchmarks/{project}/postprocess_fusion_aeron/{sample}.txt'
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     shell:
         "Postprocess {input.all_alns} {input.reads} {output.selected_alns} {output.full_len_alns} {output.summary} 2>{log} 1>&2"
 
@@ -49,6 +51,8 @@ rule pair_assignments_aeron:
     benchmark:
         'benchmarks/{project}/fusion_preprocessing_pair_aeron/{sample}.txt'
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     shell: 
         "AlignmentSubsequenceIdentity {input.transcriptaln} {input.pairs} {input.reads} 1 > {output}"
 
@@ -64,6 +68,8 @@ rule pick_longest_aeron:
     log:
         "logs/{project}/pick_longest_aeron/{sample}.log"
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell:
@@ -80,6 +86,8 @@ rule exact_pair_assignments_aeron:
     log:
         "logs/{project}/exact_pair_assignments_aeron/{sample}.log"
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell: 
@@ -95,6 +103,8 @@ rule parse_matrix_aeron:
     log:
         "logs/{project}/parse_exact_pair_assignments_aeron/{sample}.log"
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell: 
@@ -107,6 +117,8 @@ rule loose_fusions_aeron:
         temp("{project}/{sample}/fusion/aeron/{sample}_loose_fusions.txt")
     benchmark:
         "benchmarks/{project}/loose_fusions_{sample}.txt"
+    resources:
+        mem_mb = 1024 * 30,
     log:
         "logs/{project}/loose_fusions_aeron/{sample}.log"
     threads: config['threads']['aeron']
@@ -132,6 +144,8 @@ rule fusionfinder_aeron:
     benchmark:
         "benchmarks/{project}/fusionfinder_aeron/{sample}.txt"
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell: 
@@ -148,6 +162,8 @@ rule filter_fusions_aeron:
     benchmark:
         "benchmarks/{project}/filter_fusions_aeron/{sample}.txt"
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     params:
@@ -167,6 +183,8 @@ rule fusion_transcripts_aeron:
     benchmark:
         "benchmarks/{project}/fusion_transcripts_aeron/{sample}.txt"
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell: "pick_fusion_exemplar.py {input.fusions} {input.corrected} > {output} 2>{log}"
@@ -179,6 +197,8 @@ rule merge_ref_and_fusions_aeron:
     output: 
         "{project}/{sample}/fusion/aeron/{sample}_withref.fa",
     threads: 1
+    resources:
+        mem_mb = 1024 * 30,
     shell: 
         "cat {params.reference} {input.fusions} > {output}"
 
@@ -191,6 +211,8 @@ rule align_reads_to_fusions_aeron:
     log:
         "logs/{project}/align_reads_to_fusions_aeron/{sample}.log"    
     threads: config['threads']['minimap2']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/minimap2:2.28'
     benchmark:
@@ -214,6 +236,8 @@ rule fusion_support_sam_aeron:
     benchmark:
         "benchmarks/{project}/fusion_support_sam_aeron/{sample}.txt"
     threads: config['threads']['aeron']
+    resources:
+        mem_mb = 1024 * 30,
     container:
         'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
     shell: "fusion_support_sam.py {input.fusiontranscripts} {input.minimapalns} 150 {output.supportfile} {output.fusionalnfile}"
