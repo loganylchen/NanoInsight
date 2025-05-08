@@ -108,22 +108,22 @@ rule minimap2_transcriptome_dup:
         "| awk '$1!=$3' | sort | uniq > {output.transcriptome_dup} "
 
 
-rule vg_gfa:
-    input:
-        reference=config['reference']['genome'],
-    output:
-        vg_gfa='{project}/resources/genome.gfa',
-        vg_vg = '{project}/resources/genome.vg',
-    threads: config['threads']['vg']
-    log:
-        'logs/{project}/vg_gfa.log'
-    benchmark:
-        'benchmarks/{project}/vg_gfa.txt'
-    container:
-        'docker://btrspg/vg:1.23.0'
-    shell:
-        "vg construct -r {input.reference} -t {threads} > {output.vg_vg} 2>{log} && "
-        "vg view {output.vg_vg} > {output.vg_gfa} 2>>{log}"
+# rule vg_gfa:
+#     input:
+#         reference=config['reference']['genome'],
+#     output:
+#         vg_gfa='{project}/resources/genome.gfa',
+#         vg_vg = '{project}/resources/genome.vg',
+#     threads: config['threads']['vg']
+#     log:
+#         'logs/{project}/vg_gfa.log'
+#     benchmark:
+#         'benchmarks/{project}/vg_gfa.txt'
+#     container:
+#         'docker://btrspg/vg:1.23.0'
+#     shell:
+#         "vg construct -r {input.reference} -t {threads} > {output.vg_vg} 2>{log} && "
+#         "vg view {output.vg_vg} > {output.vg_gfa} 2>>{log}"
 
 rule vg_genome_aeron:
     input:

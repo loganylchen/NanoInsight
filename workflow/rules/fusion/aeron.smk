@@ -37,6 +37,9 @@ rule postprocess_aeron:
     shell:
         "Postprocess {input.all_alns} {input.reads} {output.selected_alns} {output.full_len_alns} {output.summary} 2>{log} 1>&2"
 
+
+
+
 rule pair_assignments_aeron:
     input:
         transcriptaln = '{project}/{sample}/alignment/{sample}_fulllength_4aeron.gam',
@@ -54,7 +57,7 @@ rule pair_assignments_aeron:
     resources:
         mem_mb = 1024 * 30,
     shell: 
-        "AlignmentSubsequenceIdentity {input.transcriptaln} {input.pairs} {input.reads} 1 > {output}"
+        "AlignmentSubsequenceIdentity {input.transcriptaln} {input.pairs} {input.reads} 1 > {output} 2>{log}"
 
 
 
