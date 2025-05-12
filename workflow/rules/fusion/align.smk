@@ -4,7 +4,7 @@ rule minimap2_genome_fusion_genion:
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4genion.paf'
     params:
-        reference=config['reference']['genome'],
+        reference="{project}/resources/genome.fasta",
         ext_opt=config['params']['minimap2_genion'],
     threads: config['threads']['minimap2']
     resources:
@@ -25,7 +25,7 @@ rule minimap2_genome_fusion_longgf:
     output:
         mapping_bam='{project}/{sample}/alignment/{sample}_minimap2_genome_4longgf.bam'
     params:
-        reference=config['reference']['genome'],
+        reference="{project}/resources/genome.fasta",
         ext_opt=config['params']['minimap2_longgf'],
     threads: config['threads']['minimap2']
     priority: 1
@@ -49,7 +49,7 @@ rule minimap2_transcriptome_fusion_jaffal:
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_transcriptome_4jaffal.paf'
     params:
-        reference=config['reference']['transcriptome'],
+        reference="{project}/resources/transcriptome.fasta",
     threads: config['threads']['minimap2']
     priority: 1
     resources:
@@ -70,7 +70,7 @@ rule minimap2_genome_fusion_jaffal:
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4jaffal.paf'
     params:
-        reference=config['reference']['genome'],
+        reference="{project}/resources/genome.fasta",
     threads: config['threads']['minimap2']
     priority: 1
     resources:
@@ -87,7 +87,7 @@ rule minimap2_genome_fusion_jaffal:
 
 rule minimap2_transcriptome_dup:
     input:
-        transcriptome_file=config['reference']['transcriptome']
+        transcriptome_file="{project}/resources/transcriptome.fasta",
     output:
         transcriptome_dup='{project}/resources/transcriptome_dup.tsv'
     threads: config['threads']['minimap2']
