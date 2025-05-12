@@ -15,7 +15,7 @@ rule extract_dup:
 
 rule vg_genome_index_aeron:
     input:
-        reference = config['reference']['genome'],
+        reference = config['reference']['transcriptome'],
         annotation= config['reference']['annotation'],
     output:
         '{project}/resources/genome.gfa',
