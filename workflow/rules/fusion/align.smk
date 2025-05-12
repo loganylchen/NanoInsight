@@ -1,10 +1,10 @@
 rule minimap2_genome_fusion_genion:
     input:
-        fastq=get_raw_fastq
+        fastq=get_raw_fastq,
+        reference="{project}/resources/genome.fasta",
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4genion.paf'
     params:
-        reference="{project}/resources/genome.fasta",
         ext_opt=config['params']['minimap2_genion'],
     threads: config['threads']['minimap2']
     resources:
@@ -16,16 +16,16 @@ rule minimap2_genome_fusion_genion:
     container:
         'docker://btrspg/minimap2:2.28'
     shell:
-        "minimap2 {params.ext_opt} -t {threads}  {params.reference}  {input.fastq} -o {output.mapping_paf} 2>{log}"
+        "minimap2 {params.ext_opt} -t {threads}  {input.reference}  {input.fastq} -o {output.mapping_paf} 2>{log}"
 
 
 rule minimap2_genome_fusion_longgf:
     input:
-        fastq=get_raw_fastq
+        fastq=get_raw_fastq,
+        reference="{project}/resources/genome.fasta",
     output:
         mapping_bam='{project}/{sample}/alignment/{sample}_minimap2_genome_4longgf.bam'
     params:
-        reference="{project}/resources/genome.fasta",
         ext_opt=config['params']['minimap2_longgf'],
     threads: config['threads']['minimap2']
     priority: 1
@@ -38,18 +38,19 @@ rule minimap2_genome_fusion_longgf:
     container:
         'docker://btrspg/minimap2:2.28'
     shell:
-        "minimap2 {params.ext_opt} -t {threads}  {params.reference}  {input.fastq}  2>{log} "
+        "minimap2 {params.ext_opt} -t {threads}  {input.reference}  {input.fastq}  2>{log} "
         "|samtools view -bSh "
         "| samtools sort -n - -o {output.mapping_bam}"
 
 
 rule minimap2_transcriptome_fusion_jaffal:
     input:
-        fastq=get_raw_fastq
+        fastq=get_raw_fastq,
+        reference="{project}/resources/transcriptome.fasta",
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_transcriptome_4jaffal.paf'
-    params:
-        reference="{project}/resources/transcriptome.fasta",
+  
+        
     threads: config['threads']['minimap2']
     priority: 1
     resources:
@@ -61,16 +62,16 @@ rule minimap2_transcriptome_fusion_jaffal:
     container:
         'docker://btrspg/minimap2:2.28'
     shell:
-        "minimap2 -x map-ont -t {threads} -c  {params.reference}  {input.fastq} -o {output.mapping_paf} 2>{log}"
+        "minimap2 -x map-ont -t {threads} -c  {input.reference}  {input.fastq} -o {output.mapping_paf} 2>{log}"
 
 
 rule minimap2_genome_fusion_jaffal:
     input:
-        fastq=get_raw_fastq
+        fastq=get_raw_fastq,
+        reference="{project}/resources/genome.fasta",
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4jaffal.paf'
-    params:
-        reference="{project}/resources/genome.fasta",
+
     threads: config['threads']['minimap2']
     priority: 1
     resources:
@@ -82,7 +83,7 @@ rule minimap2_genome_fusion_jaffal:
     container:
         'docker://btrspg/minimap2:2.28'
     shell:
-        "minimap2 -x splice -t {threads} -c  {params.reference}  {input.fastq} -o {output.mapping_paf} 2>{log} "
+        "minimap2 -x splice -t {threads} -c  {input.reference}  {input.fastq} -o {output.mapping_paf} 2>{log} "
 
 
 rule minimap2_transcriptome_dup:

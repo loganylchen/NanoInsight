@@ -44,7 +44,6 @@ rule filtering_genome_and_annotation:
         contigs=config["reference"]["contigs"],
     container:
         "docker://btrspg/biopython:1.85"
-
     benchmark:
         "benchmarks/{project}/filtering_references.benchmark.txt"
     script:
