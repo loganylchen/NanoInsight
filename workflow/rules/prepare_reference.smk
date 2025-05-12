@@ -22,7 +22,7 @@ rule vg_genome_index_aeron:
     log:
         'logs/{project}/vg_genome_index_aeron.log'
     container:
-        'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
+        config['containers']['aeron']
     threads: 1
     benchmark:
         'benchmarks/{project}/vg_genome_index_aeron.txt'
