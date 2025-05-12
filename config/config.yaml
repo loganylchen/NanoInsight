@@ -30,3 +30,6 @@ fusion:
   jaffal: True
   aeron: False
 
+
+containers:
+  aeron: docker://btrspg/aeron:d97bc3445b08cd6c0b1629d294f39dc24a57ae7b

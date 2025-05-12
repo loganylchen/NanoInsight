@@ -139,7 +139,7 @@ rule vg_genome_aeron:
         maxseeds=15,
         aligner_bandwidth = 35
     container:
-        'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
+        config['containers']['aeron']
     threads: config['threads']['vg']
     benchmark:
         'benchmarks/{project}/vg_genome_fusion_aeron/{sample}.txt'
@@ -164,7 +164,7 @@ rule align_aeron:
         'logs/{project}/graphaligner_fusion_aeron/{sample}.log'
     threads: config['threads']['aeron']
     container:
-        'docker://btrspg/aeron:a6e7d589e3feeb22b5374b455a1a677e3bb2edfa'
+        config['containers']['aeron']
     params:
         tmpdir = '{project}/{sample}/alignment/{sample}_ga_tmp',
         seedsize = 17,
