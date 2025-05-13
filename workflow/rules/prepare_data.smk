@@ -11,6 +11,6 @@ rule prep_raw_fastq:
     benchmark:
         "benchmarks/{project}/prep_raw_fastq/{sample}.txt"
     script:
-        '../scripts/prep_raw_fastq.h'
+        '../scripts/prep_raw_fastq.sh'
 
 
