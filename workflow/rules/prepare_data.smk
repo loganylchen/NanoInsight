@@ -8,6 +8,8 @@ rule prep_raw_fastq:
     threads: 1
     resources:
         mem_mb = 1024 * 5
+    container:
+        config['containers']['aeron']
     benchmark:
         "benchmarks/{project}/prep_raw_fastq/{sample}.txt"
     script:
