@@ -1,6 +1,6 @@
 rule minimap2_genome_fusion_genion:
     input:
-        fastq=get_raw_fastq,
+        fastq="{project}/{sample}/raw_fastq/{sample}_raw.fastq.gz",
         reference="{project}/resources/genome.fasta",
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4genion.paf'
@@ -21,7 +21,7 @@ rule minimap2_genome_fusion_genion:
 
 rule minimap2_genome_fusion_longgf:
     input:
-        fastq=get_raw_fastq,
+        fastq="{project}/{sample}/raw_fastq/{sample}_raw.fastq.gz",
         reference="{project}/resources/genome.fasta",
     output:
         mapping_bam='{project}/{sample}/alignment/{sample}_minimap2_genome_4longgf.bam'
@@ -45,7 +45,7 @@ rule minimap2_genome_fusion_longgf:
 
 rule minimap2_transcriptome_fusion_jaffal:
     input:
-        fastq=get_raw_fastq,
+        fastq="{project}/{sample}/raw_fastq/{sample}_raw.fastq.gz",
         reference="{project}/resources/transcriptome.fasta",
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_transcriptome_4jaffal.paf'
@@ -67,7 +67,7 @@ rule minimap2_transcriptome_fusion_jaffal:
 
 rule minimap2_genome_fusion_jaffal:
     input:
-        fastq=get_raw_fastq,
+        fastq="{project}/{sample}/raw_fastq/{sample}_raw.fastq.gz",
         reference="{project}/resources/genome.fasta",
     output:
         mapping_paf='{project}/{sample}/alignment/{sample}_minimap2_genome_4jaffal.paf'
@@ -129,7 +129,7 @@ rule minimap2_transcriptome_dup:
 rule vg_genome_aeron:
     input:
         graph = '{project}/resources/genome.gfa',
-        reads = get_raw_fastq
+        reads = "{project}/{sample}/raw_fastq/{sample}_raw.fastq.gz"
     output:
         '{project}/{sample}/alignment/{sample}_vg_genome_4aeron.gam'
     log:
@@ -156,7 +156,7 @@ rule vg_genome_aeron:
 rule align_aeron:
     input:
         graph = '{project}/resources/genome.gfa',
-        reads = get_raw_fastq
+        reads = "{project}/{sample}/raw_fastq/{sample}_raw.fastq.gz"
     output:
         '{project}/{sample}/alignment/{sample}_graphaligner_genome_4aeron.gam'
     benchmark:

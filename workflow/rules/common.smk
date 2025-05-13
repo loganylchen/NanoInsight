@@ -22,6 +22,8 @@ def get_raw_fastq(wildcards):
         return f"data/{wildcards.sample}/fastq/pass.fastq.gz"
 
 
+
+
 def get_raw_blow5(wildcards):
     if os.path.exists(f"data/{wildcards.sample}/blow5/nanopore.blow5"):
         return f"data/{wildcards.sample}/blow5/nanopore.blow5"
