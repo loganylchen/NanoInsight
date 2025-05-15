@@ -156,7 +156,7 @@ rule vg_genome_aeron:
 rule align_aeron:
     input:
         graph = '{project}/resources/genome.gfa',
-        reads = "{project}/{sample}/raw_fastq/{sample}_raw.fastq.gz"
+        reads = "{project}/{sample}/raw_fastq/{sample}_raw.fastq"
     output:
         '{project}/{sample}/alignment/{sample}_graphaligner_genome_4aeron.gam'
     benchmark:
