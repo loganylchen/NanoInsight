@@ -194,7 +194,7 @@ rule fusion_transcripts_aeron:
 
 rule merge_ref_and_fusions_aeron:
     input:
-        "{project}/{sample}/fusion/aeron/{sample}.fa",
+        fusions="{project}/{sample}/fusion/aeron/{sample}.fa",
     params:
         reference = config['reference']['transcriptome']
     output: 
