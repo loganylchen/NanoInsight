@@ -220,10 +220,11 @@ rule align_reads_to_fusions_aeron:
         'docker://btrspg/minimap2:2.28'
     benchmark:
         "benchmarks/{project}/align_reads_to_fusions_aeron/{sample}.txt"
-    shell: "minimap2 --secondary=no -t {threads} -a -x map-ont {input.refplusfusion} {input.reads} "
-    "| samtools view -bSh "
-    "| samtools sort - -o {output} 2>{log} && "
-    "samtools index {output}"
+    shell: 
+        "minimap2 --secondary=no -t {threads} -a -x map-ont {input.refplusfusion} {input.reads} "
+        "| samtools view -bSh "
+        "| samtools sort - -o {output} 2>{log} && "
+        "samtools index {output}"
 
 
 
