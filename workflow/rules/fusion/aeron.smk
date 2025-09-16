@@ -233,7 +233,7 @@ rule fusion_support_sam_aeron:
         fusiontranscripts = "{project}/{sample}/fusion/aeron/{sample}.fa",
         minimapalns = "{project}/{sample}/fusion/aeron/{sample}_tofusion.bam"
     output:
-        tempfile = temp("{project}/{sample}/fusion/aeron/{sample}_temp.sam")
+        tempfile = temp("{project}/{sample}/fusion/aeron/{sample}_temp.sam"),
         supportfile = "{project}/{sample}/fusion/aeron/{sample}_fusion_support.txt",
         fusionalnfile = "{project}/{sample}/fusion/aeron/{sample}_tofusion.sam"
     log:
