@@ -233,6 +233,7 @@ rule fusion_support_sam_aeron:
         fusiontranscripts = "{project}/{sample}/fusion/aeron/{sample}.fa",
         minimapalns = "{project}/{sample}/fusion/aeron/{sample}_tofusion.bam"
     output:
+        tempfile = temp("{project}/{sample}/fusion/aeron/{sample}_temp.sam")
         supportfile = "{project}/{sample}/fusion/aeron/{sample}_fusion_support.txt",
         fusionalnfile = "{project}/{sample}/fusion/aeron/{sample}_tofusion.sam"
     log:
@@ -244,7 +245,9 @@ rule fusion_support_sam_aeron:
         mem_mb = 1024 * 30,
     container:
         config['containers']['aeron']
-    shell: "fusion_support_sam.py {input.fusiontranscripts} {input.minimapalns} 150 {output.supportfile} {output.fusionalnfile}"
+    shell:
+        "samtools view {input.minimapalns} > {output.tempfile} &&"
+        "fusion_support_sam.py {input.fusiontranscripts}  {output.tempfile} 150 {output.supportfile} {output.fusionalnfile}"
 
 
 
