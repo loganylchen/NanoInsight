@@ -30,9 +30,10 @@ The usage of this workflow is described in the [Snakemake Workflow Catalog](http
 
 If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) NanoInsightsitory and its DOI (see above).
 
-# TODO
+## Citation
 
-* Replace `loganylchen` and `NanoInsight` everywhere in the template (also under .github/workflows) with the correct `NanoInsight` name and owning user or organization.
-* Replace `<name>` with the workflow name (can be the same as `NanoInsight`).
-* Replace `<description>` with a description of what the workflow does.
-* The workflow will occur in the snakemake-workflow-catalog once it has been made public. Then the link under "Usage" will point to the usage instructions if `loganylchen` and `NanoInsight` were correctly set.
+If you use this workflow in your research, please cite:
+
+* This repository: https://github.com/loganylchen/NanoInsight
+* JAFFAL: Davidson, N.M. et al. "JAFFAL: detecting fusion genes with long-read transcriptome sequencing" Genome Biol. 23, 10 (2022)
+* Genion, LongGF: (add relevant citations)

@@ -40,6 +40,18 @@ threads:
   vg: 24
   aeron: 24
 
+# Resource specifications (memory in MB)
+# Adjust these values based on your system and dataset size
+resources:
+  alignment:
+    mem_mb: 30720  # 30GB for alignment tasks
+  fusion:
+    mem_mb: 10240  # 10GB for fusion detection
+  aeron:
+    mem_mb: 307200  # 300GB for Aeron (graph-based alignment)
+  preprocessing:
+    mem_mb: 5120   # 5GB for preprocessing tasks
+
 params:
   minimap2_genion: -c -y -x splice -k 12 -w 3 --hard-mask-level -N 100
   minimap2_longgf: -ax splice -uf
