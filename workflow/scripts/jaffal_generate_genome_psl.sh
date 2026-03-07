@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-set -x 
-set -e
+set -euo pipefail
+set -x
 
 exec > "${snakemake_log[0]}" 2>&1
 date
