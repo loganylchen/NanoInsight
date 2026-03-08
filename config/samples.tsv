@@ -1,2 +1,16 @@
+# Samples configuration for NanoInsight pipeline
+#
+# Required columns:
+#   - SampleName: Unique identifier for each sample (alphanumeric, underscores allowed)
+#
+# Data directory structure expected:
+#   data/{SampleName}/fastq/pass.fq.gz or pass.fastq.gz
+#   data/{SampleName}/blow5/nanopore.blow5 or nanopore.drs.blow5 (if using raw signal)
+#
+# Example:
+# SampleName
+# sample1
+# sample2
+# cancer_sample_01
 SampleName
-K562directRNAreplicate4run1
+sample1

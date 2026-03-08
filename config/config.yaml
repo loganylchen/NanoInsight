@@ -1,15 +1,35 @@
+# NanoInsight Configuration File
+# ==============================
+# This file configures the NanoInsight pipeline for Nanopore DRS fusion detection.
+
+# Sample sheet: Tab-separated file with sample information
+# Required column: SampleName (must match directory names in data/)
 samples: config/samples.tsv
 
+# Project identifier: Used in output directory structure
+# All outputs will be under {project}/{sample}/...
 project: pipeline_test
 
+# Reference files configuration
 reference:
+  # Primary genome assembly in FASTA format
   genome: resources/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+  
+  # Transcriptome sequences (auto-generated from genome + annotation if not provided)
   transcriptome: resources/transcriptome.fa
-  #transcriptome: data/hg38_genCode22.fa
+  
+  # Gene annotation in GTF format (must match genome version)
   annotation: resources/Homo_sapiens.GRCh38.104.gtf
+  
+  # Transcript-to-gene mapping table for JAFFAL
   transtable: resources/transtable.tab
-  #transtable: data/hg38_genCode22.tab
+  
+  # Known fusion gene pairs for filtering/annotation
   knowntable: resources/known_fusions.txt
+  
+  # Chromosomes/contigs to include in analysis
+  # Use standard chromosome names without 'chr' prefix for Ensembl references
+  # Reduces memory usage by excluding unplaced contigs
   contigs: 
     - '1'
     - '2'
@@ -35,25 +55,42 @@ reference:
     - '22'
     - 'X'
 
+# Thread allocation per tool
+# Adjust based on available CPU cores
 threads:
-  minimap2: 24
-  vg: 24
-  aeron: 24
+  minimap2: 24    # Alignment (scales well with threads)
+  vg: 24          # Graph-based alignment for Aeron
+  aeron: 24       # Aeron fusion finder
 
+# Tool-specific parameters
 params:
+  # Minimap2 settings for Genion fusion detection
+  # -c: output CIGAR, -y: copy input comments, -x splice: RNA splice-aware
+  # -k 12: k-mer size, -w 3: window size, --hard-mask-level: mask repeats
+  # -N 100: max secondary alignments
   minimap2_genion: -c -y -x splice -k 12 -w 3 --hard-mask-level -N 100
+  
+  # Minimap2 settings for LongGF fusion detection  
+  # -ax splice: output SAM with splice alignment, -uf: consider transcript strand
   minimap2_longgf: -ax splice -uf
+  
+  # Aeron genome alignment parameters
   aeron_genome_alignment: --try-all-seeds --seeds-mxm-length 17 --seeds-mem-count 15 -b 35 --greedy-length
 
+# External resources
 misc:
+  # UCSC genomic duplications file for Genion filtering
   genion_dup_file_link: ftp://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/genomicSuperDups.txt.gz
 
+# Fusion detection tools to run
+# Set to True to enable, False to disable
 fusion:
-  genion: True
-  longgf: True
-  jaffal: True
-  aeron: False
+  genion: True   # K-mer based fusion detection
+  longgf: True   # Graph-based long-read fusion detection
+  jaffal: True   # JAFFAL for long-read fusion detection
+  aeron: False   # Disabled: requires high memory (300GB+) and has compatibility issues
 
-
+# Container images for tools
 containers:
+  # Aeron container (used when aeron: True)
   aeron: docker://btrspg/aeron:d97bc3445b08cd6c0b1629d294f39dc24a57ae7b
