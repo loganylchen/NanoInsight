@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
-
-
+set -euo pipefail
 set -x
-set -e
-
 
 exec > "${snakemake_log[0]}" 2>&1
-echo `date` 
+echo "$(date)" 
 
 
 cat ${snakemake_input[gene_count]} | awk '{print $1}' > ${snakemake_output[fusion_temp]} ;

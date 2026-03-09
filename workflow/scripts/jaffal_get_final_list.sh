@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-
+set -euo pipefail
 set -x
-set -e
-
 
 exec > "${snakemake_log[0]}" 2>&1
-echo `date` 
+echo "$(date)" 
 
 if [ ! -s ${snakemake_input[genome_psl]} ]; then
     touch ${snakemake_output[final_list]};

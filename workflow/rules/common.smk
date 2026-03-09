@@ -16,19 +16,45 @@ samples = (
 
 
 def get_raw_fastq(wildcards):
-    if os.path.exists(f"data/{wildcards.sample}/fastq/pass.fq.gz"):
-        return f"data/{wildcards.sample}/fastq/pass.fq.gz"
+    """Get the raw FASTQ file for a sample.
+    
+    Checks for both .fq.gz and .fastq.gz extensions.
+    Raises FileNotFoundError if neither exists.
+    """
+    fq_gz = f"data/{wildcards.sample}/fastq/pass.fq.gz"
+    fastq_gz = f"data/{wildcards.sample}/fastq/pass.fastq.gz"
+    
+    if os.path.exists(fq_gz):
+        return fq_gz
+    elif os.path.exists(fastq_gz):
+        return fastq_gz
     else:
-        return f"data/{wildcards.sample}/fastq/pass.fastq.gz"
+        raise FileNotFoundError(
+            f"No FASTQ file found for sample '{wildcards.sample}'. "
+            f"Expected one of: {fq_gz} or {fastq_gz}"
+        )
 
 
 
 
 def get_raw_blow5(wildcards):
-    if os.path.exists(f"data/{wildcards.sample}/blow5/nanopore.blow5"):
-        return f"data/{wildcards.sample}/blow5/nanopore.blow5"
+    """Get the raw BLOW5 file for a sample.
+    
+    Checks for both nanopore.blow5 and nanopore.drs.blow5 naming conventions.
+    Raises FileNotFoundError if neither exists.
+    """
+    blow5 = f"data/{wildcards.sample}/blow5/nanopore.blow5"
+    drs_blow5 = f"data/{wildcards.sample}/blow5/nanopore.drs.blow5"
+    
+    if os.path.exists(blow5):
+        return blow5
+    elif os.path.exists(drs_blow5):
+        return drs_blow5
     else:
-        return f"data/{wildcards.sample}/blow5/nanopore.drs.blow5"
+        raise FileNotFoundError(
+            f"No BLOW5 file found for sample '{wildcards.sample}'. "
+            f"Expected one of: {blow5} or {drs_blow5}"
+        )
 
 
 

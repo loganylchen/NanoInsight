@@ -20,7 +20,7 @@ configfile: "config/config.yaml"
 
 # this container defines the underlying OS for each job when using the workflow
 # with --use-conda --use-singularity
-container: "docker://condaforge/mambaforge:22.11.1-4"
+container: "docker://condaforge/miniforge3:24.3.0-0"
 
 
 
