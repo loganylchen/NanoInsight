@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-
+set -euo pipefail
 set -x
-set -e
-
 
 exec > "${snakemake_log[0]}" 2>&1
-echo `date` 
+echo "$(date)" 
 
 
 
@@ -27,4 +25,5 @@ echo "   JAFFAL: detecting fusion genes with long-read transcriptome sequencing"
 echo "   Genome Biol. 23, 10 (2022)" ;
 echo "*************************************************************************" ;
 
-touch ${snakemake_output[fusion]}
+# Copy the actual JAFFAL results to the expected output TSV
+cp "${snakemake_params[final_out_prefix]}.csv" "${snakemake_output[fusion]}"

@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
-
-
+set -euo pipefail
 set -x
-set -e
-
 
 exec > "${snakemake_log[0]}" 2>&1
-echo `date` 
+echo "$(date)" 
 
 
 echo  -e "transcript\tbreak_min\tbreak_max\tfusion_genes\tspanning_pairs\tspanning_reads" > ${snakemake_output[fasta_reads_table]}
